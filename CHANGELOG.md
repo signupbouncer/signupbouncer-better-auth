@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- The README and the module docs link the setup guide at its new address,
+  https://signupbouncer.com/integrations/better-auth. The old address still redirects there.
+
 ## 0.3.0
 
 The plugin can now tell SignupBouncer when a user clicks the link in Better Auth's verification email, so a challenged

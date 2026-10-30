@@ -5,7 +5,7 @@
  * 400 with `{ code: "SIGNUP_BLOCKED", message }`, plus `why_url` when you turn on the "Why was this refused?" link on
  * the Rules tab of your dashboard.
  *
- * Setup guide: https://signupbouncer.com/better-auth. API docs: https://signupbouncer.com/docs.
+ * Setup guide: https://signupbouncer.com/integrations/better-auth. API docs: https://signupbouncer.com/docs.
  *
  * ```ts
  * import { betterAuth } from "better-auth";

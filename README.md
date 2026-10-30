@@ -7,8 +7,8 @@ most 1.5 seconds on the check.
 
 You need a SignupBouncer API key. Create an account at https://signupbouncer.com/signup, then choose "Create API key" on
 your app's Integration tab in the dashboard and copy the key (`sb_live_...`). Each key belongs to one app, and the
-checks it makes are logged under that app. The setup guide for Better Auth is at https://signupbouncer.com/better-auth,
-and the full API docs are at https://signupbouncer.com/docs.
+checks it makes are logged under that app. The setup guide for Better Auth is at
+https://signupbouncer.com/integrations/better-auth, and the full API docs are at https://signupbouncer.com/docs.
 
 ## Install
 
