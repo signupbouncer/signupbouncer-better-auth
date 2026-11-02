@@ -7,11 +7,11 @@ only when you approve it on npmjs.com with your 2FA.
 
 ## One-time setup
 
-1. **GitHub repo.** Create the public repo `signupbouncer/better-auth` (empty: no README, licence or .gitignore), then
-   push this one:
+1. **GitHub repo.** Create the public repo `signupbouncer/signupbouncer-better-auth` (empty: no README, licence or
+   .gitignore), then push this one:
 
    ```
-   git remote add origin git@github.com:signupbouncer/better-auth.git
+   git remote add origin git@github.com:signupbouncer/signupbouncer-better-auth.git
    git push -u origin master
    ```
 
@@ -19,8 +19,9 @@ only when you approve it on npmjs.com with your 2FA.
 
 2. **JSR scope and package.** Sign in at https://jsr.io with the GitHub account that owns the `signupbouncer` org.
    - Create the scope `@signupbouncer` and, in it, the package `better-auth` (https://jsr.io/new).
-   - In the package's Settings tab, link it to the GitHub repository `signupbouncer/better-auth`. This is what lets the
-     workflow publish with GitHub's OIDC token (https://jsr.io/docs/publishing-packages#publishing-from-github-actions).
+   - In the package's Settings tab, link it to the GitHub repository `signupbouncer/signupbouncer-better-auth`. This is
+     what lets the workflow publish with GitHub's OIDC token
+     (https://jsr.io/docs/publishing-packages#publishing-from-github-actions).
 
 3. **npm org and trusted publisher.**
    - Create the free npm organization `signupbouncer` (https://www.npmjs.com/org/create). This reserves the
@@ -30,40 +31,49 @@ only when you approve it on npmjs.com with your 2FA.
    - On https://www.npmjs.com/package/@signupbouncer/better-auth, open Settings, find "Trusted Publisher" and choose
      GitHub Actions (https://docs.npmjs.com/trusted-publishers). Enter:
      - Organization or user: `signupbouncer`
-     - Repository: `better-auth`
+     - Repository: `signupbouncer-better-auth`
      - Workflow filename: `publish.yml`
      - Environment name: leave empty. The workflow's npm job has no GitHub environment, and the fields must match the
        workflow exactly or npm refuses the run.
      - Allowed actions: leave "Allow npm publish" and "Allow npm dist-tag" unticked. `npm stage publish` is always
        allowed, and it is the only command the workflow runs, so every version waits for your approval.
+   - The repository was named `better-auth` until 2 Nov 2026. npm doesn't let you change a trusted publisher's
+     repository, so after a rename delete the old trusted publisher and add a new one with the values above (Allowed
+     actions still unticked, so every version still waits for your approval). Do it just before the next release, not
+     earlier: npm expires a new trusted publisher that no publish has used within two days.
    - Under Settings, "Publishing access", choose "Require two-factor authentication and disallow tokens". Trusted
      publishing does not use a token, so the workflow keeps working, and no leaked token can publish this package.
    - Then delete the old `NPM_TOKEN` repository secret
-     (https://github.com/signupbouncer/better-auth/settings/secrets/actions). Nothing in this repository reads it any
-     more. Revoke the token itself on npmjs.com (https://www.npmjs.com/settings/~/tokens) once no other repository uses
-     it: it can publish every `@signupbouncer` package.
+     (https://github.com/signupbouncer/signupbouncer-better-auth/settings/secrets/actions). Nothing in this repository
+     reads it any more. Revoke the token itself on npmjs.com (https://www.npmjs.com/settings/~/tokens) once no other
+     repository uses it: it can publish every `@signupbouncer` package.
 
 ## Each release
 
 1. Bump `"version"` in `deno.json`, commit, push, and wait for `ci` to go green.
-2. Tag the commit with the same version and push the tag:
+2. Check the trusted publisher. On https://www.npmjs.com/package/@signupbouncer/better-auth, Settings, "Trusted
+   Publisher" must show a GitHub Actions publisher for repository `signupbouncer-better-auth` that npm doesn't mark as
+   expired. If it names `better-auth` (the first release after the 2 Nov 2026 rename), is expired or is missing, delete
+   it and add one with the values in step 3 of the setup, then tag within two days. Without this, JSR publishes and npm
+   refuses the run.
+3. Tag the commit with the same version and push the tag:
 
    ```
    git tag v0.1.0
    git push origin v0.1.0
    ```
 
-3. Watch https://github.com/signupbouncer/better-auth/actions. The `verify` job refuses a tag that does not match
-   `deno.json` or a published file that still holds a `[FILL ...]` placeholder. Then `jsr` publishes while `build-npm`
-   builds and packs the npm package in a job with no publishing rights. After both have succeeded, `npm` checks that
-   tarball with `scripts/release_tarball.py` (no links, odd paths, `.npmrc` or unexpected `publishConfig`), writes a
-   clean copy from what it checked, and stages that copy.
-4. Approve the staged version at npmjs.com (package > staged versions; needs your 2FA). Until then it is not live on
+4. Watch https://github.com/signupbouncer/signupbouncer-better-auth/actions. The `verify` job refuses a tag that does
+   not match `deno.json` or a published file that still holds a `[FILL ...]` placeholder. Then `jsr` publishes while
+   `build-npm` builds and packs the npm package in a job with no publishing rights. After both have succeeded, `npm`
+   checks that tarball with `scripts/release_tarball.py` (no links, odd paths, `.npmrc` or unexpected `publishConfig`),
+   writes a clean copy from what it checked, and stages that copy.
+5. Approve the staged version at npmjs.com (package > staged versions; needs your 2FA). Until then it is not live on
    npm; JSR publishes on its own. npm's docs call the page the "Staged Packages" tab of the package
    (https://docs.npmjs.com/staged-publishing): open https://www.npmjs.com/package/@signupbouncer/better-auth, go to that
    tab, check the version and click Approve. From a terminal, `npm stage list @signupbouncer/better-auth` shows the
    stage id and `npm stage approve <stage-id>` approves it, also with 2FA.
-5. Check https://jsr.io/@signupbouncer/better-auth and https://www.npmjs.com/package/@signupbouncer/better-auth. The npm
+6. Check https://jsr.io/@signupbouncer/better-auth and https://www.npmjs.com/package/@signupbouncer/better-auth. The npm
    version page should show a provenance badge.
 
 A version number can be published once on each registry, and a staged npm version holds its number too. If one registry

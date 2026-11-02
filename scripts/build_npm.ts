@@ -59,8 +59,8 @@ await build({
     license: "MIT",
     author: "SignupBouncer",
     homepage: "https://signupbouncer.com",
-    repository: { type: "git", url: "git+https://github.com/signupbouncer/better-auth.git" },
-    bugs: { url: "https://github.com/signupbouncer/better-auth/issues" },
+    repository: { type: "git", url: "git+https://github.com/signupbouncer/signupbouncer-better-auth.git" },
+    bugs: { url: "https://github.com/signupbouncer/signupbouncer-better-auth/issues" },
     keywords: [
       "better-auth",
       "better-auth-plugin",
