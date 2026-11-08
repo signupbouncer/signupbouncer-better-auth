@@ -12,10 +12,10 @@ https://signupbouncer.com/integrations/better-auth, and the full API docs are at
 
 ## Install
 
-Deno:
+Deno (in Next.js, from the folder with package.json):
 
 ```sh
-deno add jsr:@signupbouncer/better-auth
+deno add npm:@signupbouncer/better-auth
 ```
 
 Node, Bun and other npm-based setups, from npm:

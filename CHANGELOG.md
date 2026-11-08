@@ -4,6 +4,10 @@
 
 - The README and the module docs link the setup guide at its new address,
   https://signupbouncer.com/integrations/better-auth. The old address still redirects there.
+- The npm package's repository and issues links point to github.com/signupbouncer/signupbouncer-better-auth, the
+  repository's name since 2 Nov. In 0.3.0 they point to the old `better-auth` address, which redirects.
+- The README's Deno install uses `deno add npm:`, run from the folder with package.json in Next.js. With `jsr:`, Deno
+  writes the import to deno.json. Next.js's bundler doesn't read that file, so the build couldn't find the plugin.
 
 ## 0.3.0
 
